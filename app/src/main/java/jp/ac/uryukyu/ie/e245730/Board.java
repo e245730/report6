@@ -73,7 +73,8 @@ public class Board {
                         break; //相手の石が見つからない場合は無効
                     }
                 }
-                //おきたい場所の周り方向に空ますが発覚した場合、その方向とでは挟み込めないのでその方向では判定終了
+                //おきたい場所の周り方向に空ますが発覚した場合、
+                //その方向とでは挟み込めないのでその方向では判定終了
                 else {
                     break; // 探索終了
                 }
@@ -118,7 +119,8 @@ public class Board {
                         //相手の色ではなく自分の色が発見された場合、挟み込みが成立
                         int flipRow = row + directionsRow[d];  //ひっくり返した行
                         int flipCol = col + directionsCol[d];  //ひっくり返した列
-                        //ひっくり返した行、列のどちらかがこの条件である限りループ・ひっくり返した行列の値が挟み込める時の値に一致するまでループ
+                        //ひっくり返した行、列のどちらかがこの条件である限りループ・
+                        //ひっくり返した行列の値が挟み込める時の値に一致するまでループ
                         while (flipRow != currentRow || flipCol != currentCol) {
                             board[flipRow][flipCol] = color; // 石を自分の色に変える
                             flipRow += directionsRow[d];
@@ -135,5 +137,13 @@ public class Board {
                 currentCol += directionsCol[d];
             }
         }
+  }
+  public static boolean placeStone(int row, int col, String color){    
+    if (isJudement( row,  col,  color)){
+            board[row][col] = color;
+            turnColor(row, col, color);
+        }
+        return false;
+    
   }
 }
