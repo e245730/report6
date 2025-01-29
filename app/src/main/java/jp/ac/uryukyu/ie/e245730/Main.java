@@ -1,6 +1,6 @@
 package jp.ac.uryukyu.ie.e245730;
 
-import javax.swing.border.Border;
+
 
 public class Main {
     public static void main(String[] args) {
@@ -8,5 +8,7 @@ public class Main {
         Board Board = new Board();
         Board.Initialize();
         Board.ShowBoard();
+        
+       
     }
 }
