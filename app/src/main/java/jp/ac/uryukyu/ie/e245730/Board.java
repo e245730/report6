@@ -10,7 +10,7 @@ public class Board {
     public static void Initialize(){
         for (int i = 0; i < 8; i++){
             for(int t = 0;t<8;t++){
-                board[i][t]= Empty;
+                board[t][i]= Empty;
             }
         }
         //下記を設定するために表示するBoardに変数を用いて番号をつけなければならない
@@ -118,7 +118,7 @@ public class Board {
                         //相手の色ではなく自分の色が発見された場合、挟み込みが成立
                         int flipRow = row + directionsRow[d];  //ひっくり返した行
                         int flipCol = col + directionsCol[d];  //ひっくり返した列
-                        //ひっくり返した行、列のどちらかが
+                        //ひっくり返した行、列のどちらかがこの条件である限りループ・ひっくり返した行列の値が挟み込める時の値に一致するまでループ
                         while (flipRow != currentRow || flipCol != currentCol) {
                             board[flipRow][flipCol] = color; // 石を自分の色に変える
                             flipRow += directionsRow[d];
@@ -136,12 +136,4 @@ public class Board {
             }
         }
   }
-
-
-
-
-
-
-
-
 }
