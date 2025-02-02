@@ -7,7 +7,7 @@ public class Board {
    static String White = "W";
    
     //盤面にempty,中央に白黒を設置する
-    public static void Initialize(){
+    public void Initialize(){
         for (int i = 0; i < 8; i++){
             for(int t = 0;t<8;t++){
                 board[t][i]= Empty;
@@ -20,7 +20,7 @@ public class Board {
         board[4][4] = Black;
     }
    //番号をつけたBoardを表示させる
-    public static void ShowBoard (){
+    public void ShowBoard (){
         for (int i=0;i<8;i++){
             System.out.print(" "+i+" ");  //列番号表示
             }
@@ -36,7 +36,6 @@ public class Board {
         }
     }
     
-    
     //行と列をrowとcolで,自分の色をcolorで設定
     public static boolean isJudement(int row, int col, String color) {
         //指定の場所が空かどうか判定
@@ -51,6 +50,7 @@ public class Board {
             opponentColor = Black; // 自分が白なら相手は黒
         }       
         //8方向をチェック  選択した場所の周り8方向を座標（行と列）でチェック
+        //このロジックはchatgdp相談！！！！！！
         int[] directionsRow = {-1, -1, -1, 0, 0, 1, 1, 1}; // 上, 上右, 右, 下右, 下, 下左, 左, 上左
         int[] directionsCol = {-1, 0, 1, 1, -1, -1, 0, 1};
         //dは各方向の行、列を表した配列のインデックス
@@ -59,7 +59,7 @@ public class Board {
             int currentCol = col + directionsCol[d]; //currentCol：検証する列番号
             boolean foundOpponent = false;
     
-            // 方向ごとに検証
+            //方向ごとに検証
             while (currentRow >= 0 && currentRow < 8 && currentCol >= 0 && currentCol < 8) {
                 // 現在判定している場所の石の色について判定
                 if (board[currentRow][currentCol].equals(opponentColor)) {
@@ -68,8 +68,10 @@ public class Board {
                 // 現在判定している場所の色が自分と同じ色の場合
                 else if (board[currentRow][currentCol].equals(color)) {
                     if (foundOpponent) {
+                        System.out.println("挟み込めました");//デバック
                         return true; // 挟み込みが成立
                     } else {
+                        System.out.println(currentCol);
                         break; //相手の石が見つからない場合は無効
                     }
                 }
@@ -86,11 +88,13 @@ public class Board {
         }
     
         // どの方向にも有効な挟み込みが見つからない場合
+        System.err.println("挟み込み見つからない");//デバック
         return false;
     }
     
     
     //石をひっくり返すメゾット
+    // isJudementメゾットのロジックを参考
     public static void turnColor(int row, int col, String color){
    //相手の石の色を決定
         String opponentColor;
@@ -103,7 +107,7 @@ public class Board {
         int[] directionsRow = {-1, -1, -1, 0, 0, 1, 1, 1}; // 上, 上右, 右, 下右, 下, 下左, 左, 上左
         int[] directionsCol = {-1, 0, 1, 1, -1, -1, 0, 1};
 
-    // 
+    
         for (int d = 0; d < 8; d++) {
             int currentRow = row + directionsRow[d];//検証している行＝指定した行＋dインデックスの変化量
             int currentCol = col + directionsCol[d];//検証している列＝指定した列＋dインデックスの変化量
@@ -138,12 +142,18 @@ public class Board {
             }
         }
   }
-  public static boolean placeStone(int row, int col, String color){    
+  //isJudementメゾットとturnColorメゾットを用いた石を置くメゾット
+  public boolean placeStone(int row, int col, String color){    
     if (isJudement( row,  col,  color)){
             board[row][col] = color;
             turnColor(row, col, color);
-        }
+            return true;
+    }else{
+        System.out.println("ここには置けません！");
         return false;
+    }
+        
+    
     
   }
 }
